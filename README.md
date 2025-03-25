@@ -1,6 +1,6 @@
-# Teste Crud Básico
+# Teste Crud Básico - Full Gauge
 
-Este é um projeto básico de CRUD (Create, Read, Update, Delete) em React. O projeto utiliza a biblioteca **Vite** para desenvolvimento rápido e **JSON Server** para simular uma API RESTful com um arquivo JSON como banco de dados.
+Este é um projeto básico de CRUD (Create, Read, Update, Delete) em React. O projeto utiliza a biblioteca **Vite** para desenvolvimento rápido e **JSON Server** para simular uma API RESTful com um arquivo JSON como banco de dados feito para a empresa full gauge.
 
 ## Tecnologias Utilizadas
 
