@@ -1,4 +1,3 @@
-
 # Teste Crud Básico
 
 Este é um projeto básico de CRUD (Create, Read, Update, Delete) em React. O projeto utiliza a biblioteca **Vite** para desenvolvimento rápido e **JSON Server** para simular uma API RESTful com um arquivo JSON como banco de dados.
@@ -38,12 +37,9 @@ Isso irá iniciar o Vite para o front-end e o JSON Server para simular a API.
 
 O projeto será acessível em [http://localhost:3000]() e o servidor JSON Server estará disponível em [http://localhost:5173]().
 
-
 ## Scripts
 
 * `npm run dev`: Inicia o servidor de desenvolvimento com Vite e JSON Server simultaneamente.
-* `npm run build`: Cria uma versão otimizada para produção.
-* `npm run preview`: Preview da aplicação de produção.
 * `npm run test`: Executa os testes unitários com Vitest.
 * `npm run json-server`: Inicia o JSON Server manualmente com o arquivo `registros.json`.
 
@@ -54,7 +50,6 @@ O projeto será acessível em [http://localhost:3000]() e o servidor JSON Server
 * **/styles**: Estilos globais ou específicos dos componentes.
 * **/stores**: Gerenciamento de estados.
 * **/test:** local da configuração do Vitest
-
 
 ## Testes
 
