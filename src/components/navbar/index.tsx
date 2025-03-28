@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -47,15 +47,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const SearchBar = () => {
-  const { genericSearch, users } = useUserStore();
-  const { setTotalPages } = usePaginationStore();
+  const { genericSearch, users, filteredResults } = useUserStore();
+  const { setTotalPages, handleGenericSearch, resetGenericSearch, page } = usePaginationStore();
   const [ searchFilter, setSearchFilter ] = useState('');
+  
 
   function handleFilterText(text: string){
     setSearchFilter(text);
     genericSearch(text);
-    text !== '' ? setTotalPages(0) : setTotalPages(users.length)
+    text !== '' ? handleGenericSearch() : (resetGenericSearch(), setTotalPages(users.length))
   }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="sticky" color='primary'>

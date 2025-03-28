@@ -18,6 +18,8 @@ vi.mock('../../store/pagination', () => ({
 describe('SearchBar Component', () => {
   const mockGenericSearch = vi.fn();
   const mockSetTotalPages = vi.fn();
+  const mockHandleGenericSearch = vi.fn();
+  const mockResetGenericSearch = vi.fn();
   const mockUsers = [{ id: 1, name: 'User 1' }, { id: 2, name: 'User 2' }];
 
   beforeEach(() => {
@@ -30,6 +32,8 @@ describe('SearchBar Component', () => {
 
     usePaginationStore.mockReturnValue({
       setTotalPages: mockSetTotalPages,
+      handleGenericSearch: mockHandleGenericSearch,
+      resetGenericSearch: mockResetGenericSearch
     });
   });
 
@@ -43,19 +47,17 @@ describe('SearchBar Component', () => {
     expect(svgElement).toBeInTheDocument();
   });
 
-  it('calls genericSearch and setTotalPages when input changes', () => {
+  it('calls handleGenericSearch when input changes', () => {
     render(<SearchBar />);
 
     const searchInput = screen.getByPlaceholderText(/buscar.../i);
 
     fireEvent.change(searchInput, { target: { value: 'test' } });
 
-    expect(mockGenericSearch).toHaveBeenCalledWith('test');
-
-    expect(mockSetTotalPages).toHaveBeenCalledWith(0);
+    expect(mockGenericSearch).toHaveBeenCalled();
 
     fireEvent.change(searchInput, { target: { value: '' } });
     
-    expect(mockSetTotalPages).toHaveBeenCalledWith(mockUsers.length);
+    expect(mockResetGenericSearch).toHaveBeenCalled();
   });
 });

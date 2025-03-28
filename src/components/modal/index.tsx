@@ -20,7 +20,7 @@ const modalStyles = {
   },
 };
 
-const closeButtonStyles = {
+const closeButtonStyles: any = {
   position: 'absolute',
   top: 16,
   right: 16,
@@ -59,8 +59,12 @@ const ModalComponent = () => {
       <h2>{modalTitle}</h2>
       <form>
         <h3>Gostaria de Deletar o usuário {firstName} {lastName}? </h3>
-        <Button sx={{ float: "right" }} variant="contained" onClick={() => handleClickDelete(idUser)}>Sim</Button>
+        <div style={{'display': 'flex', 'justifyContent': 'space-between'}}>
+          <Button color="primary"variant="contained" onClick={toggleModal}>Cancelar</Button>
+          <Button color="error" variant="contained" onClick={() => handleClickDelete(idUser)}>Sim</Button>
+        </div>
       </form>
+      
       <button style={closeButtonStyles} onClick={toggleModal}>X</button>
     </Modal>
   );

@@ -56,11 +56,11 @@ const Form = () => {
     }, [firstName, lastName, idUser, modalType, setValue]);
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form style={{'display' : 'flex', 'flex-direction': 'column', 'gap': '1em'}} onSubmit={handleSubmit(onSubmit)}>
             <input type="hidden" {...register('id')} />
             <input type="hidden" {...register('type')} />
 
-            <FormControl sx={{ width: '100%', marginBottom: '15px' }}>
+            <FormControl>
                 <TextField
                     variant="outlined"
                     label="Nome"
@@ -75,7 +75,7 @@ const Form = () => {
                 />
             </FormControl>
 
-            <FormControl sx={{ width: '100%', marginBottom: '15px' }}>
+            <FormControl>
                 <TextField
                     variant="outlined"
                     label="Sobrenome"
@@ -91,6 +91,7 @@ const Form = () => {
             </FormControl>
 
             <Button type="submit" variant="contained" color="primary">Enviar</Button>
+            <Button type="reset" variant="contained" color="error" onClick={toggleModal}>Cancelar</Button>
         </form>
     );
 };
