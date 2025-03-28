@@ -20,7 +20,7 @@ Este é um projeto básico de CRUD (Create, Read, Update, Delete) em React. O pr
 1. Clone o repositório para sua máquina local:
 
    ```bash
-   git clone https://github.com/seu-usuario/teste-crud-basico.git
+   git clone https://github.com/kannyTrindade/teste-crud-basico.git
    ```
 2. Instale as dependências do projeto:
 
