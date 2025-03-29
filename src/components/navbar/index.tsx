@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Logo  from  '../logo';
 import { useUserStore } from '../../store/user';
 import { usePaginationStore } from "../../store/pagination";
+import { useSearchStore } from '../../store/search';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -47,15 +48,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const SearchBar = () => {
-  const { genericSearch, users, filteredResults } = useUserStore();
-  const { setTotalPages, handleGenericSearch, resetGenericSearch, page } = usePaginationStore();
-  const [ searchFilter, setSearchFilter ] = useState('');
+  const { genericSearch, resetSearch, users, filteredResults } = useUserStore();
+  const { setTotalPages, handleGenericSearch, resetPagination, page } = usePaginationStore();
+  const { setSearch, clearSearch, searchTerms} = useSearchStore();
+
+  function resetSearchFn(){
+    resetSearch();
+    resetPagination();
+    setTotalPages(users.length);
+    clearSearch();
+  }
+
+  function doSearch(text: string){
+    genericSearch(text);
+    handleGenericSearch()
+  }
+
+  useEffect(() => {
+    handleFilterText(searchTerms)
+  }, [searchTerms])
   
 
   function handleFilterText(text: string){
-    setSearchFilter(text);
-    genericSearch(text);
-    text !== '' ? handleGenericSearch() : (resetGenericSearch(), setTotalPages(users.length))
+    setSearch(text);
+    text == '' ? resetSearchFn() : doSearch(text);    
   }
 
   return (
@@ -73,8 +89,8 @@ const SearchBar = () => {
                 <StyledInputBase
                     placeholder="Buscar..."
                     inputProps={{ 'aria-label': 'search' }}
-                    onChange={e => handleFilterText(e.target.value)}
-                    value={searchFilter}
+                    onChange={e => setSearch(e.target.value)}
+                    value={searchTerms}
                 />
             </Search>
         </Toolbar>

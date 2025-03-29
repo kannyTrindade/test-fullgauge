@@ -7,6 +7,7 @@ import { Container, FormControl } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 import Form from '../form';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 
 const modalStyles = {
   content: {
@@ -33,11 +34,11 @@ const closeButtonStyles: any = {
 const ModalComponent = () => {
   const { isOpen, modalType, modalTitle, firstName, lastName, idUser, toggleModal, updateFirstName, updateLastName, clearForm } = useModalStore();
   const { removeUser } = useUserStore();
-  const { handlePage } = usePaginationStore();
+  const { resetPagination } = usePaginationStore();
 
   function handleClickDelete(id: number) {
     removeUser(id);
-    handlePage(1);
+    resetPagination();
     toggleModal();
     clearForm();
   }
@@ -46,26 +47,25 @@ const ModalComponent = () => {
     return (
       <Modal ariaHideApp={false} style={modalStyles} isOpen={isOpen} onRequestClose={toggleModal} shouldCloseOnOverlayClick={true}>
         <Container sx={{display: 'flex', maxWidth: '400px', flexDirection: 'column'}}>
-        <h2>{modalTitle}</h2>
+        <h2 style={{'marginTop': '0'}}>{modalTitle}</h2>
           <Form type={modalType} id={idUser}/>
         </Container>
-        <button style={closeButtonStyles} onClick={toggleModal}>X</button>
+        <button data-testid="closeBtn" style={closeButtonStyles} onClick={toggleModal}><CancelRoundedIcon /></button>
       </Modal>
     );
   }
   
   return (
     <Modal ariaHideApp={false} style={modalStyles} isOpen={isOpen} onRequestClose={toggleModal} shouldCloseOnOverlayClick={true}>
-      <h2>{modalTitle}</h2>
       <form>
-        <h3>Gostaria de Deletar o usuário {firstName} {lastName}? </h3>
-        <div style={{'display': 'flex', 'justifyContent': 'space-between'}}>
+        <h3 style={{'marginTop': '0'}}>Gostaria de Deletar o usuário {firstName} {lastName}? </h3>
+        <div className='cancelButtonsContainer'>
           <Button color="primary"variant="contained" onClick={toggleModal}>Cancelar</Button>
           <Button color="error" variant="contained" onClick={() => handleClickDelete(idUser)}>Sim</Button>
         </div>
       </form>
       
-      <button style={closeButtonStyles} onClick={toggleModal}>X</button>
+      <button data-testid="closeBtn" style={closeButtonStyles} onClick={toggleModal}><CancelRoundedIcon /></button>
     </Modal>
   );
   

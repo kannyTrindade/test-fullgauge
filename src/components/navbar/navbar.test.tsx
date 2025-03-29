@@ -5,10 +5,15 @@ import SearchBar from './index';
 import { useModalStore } from '../../store/modal';
 import { usePaginationStore } from '../../store/pagination';
 import { useUserStore } from '../../store/user';
+import { useSearchStore } from '../../store/search';
 
 
 vi.mock('../../store/user', () => ({
   useUserStore: vi.fn(),
+}));
+
+vi.mock('../../store/search', () => ({
+  useSearchStore: vi.fn(),
 }));
 
 vi.mock('../../store/pagination', () => ({
@@ -19,21 +24,32 @@ describe('SearchBar Component', () => {
   const mockGenericSearch = vi.fn();
   const mockSetTotalPages = vi.fn();
   const mockHandleGenericSearch = vi.fn();
-  const mockResetGenericSearch = vi.fn();
+  const mockresetPagination = vi.fn();
+  const mockResetSearch = vi.fn();
+  const mockClearSearch = vi.fn();
+  const mockSetSearch = vi.fn();
   const mockUsers = [{ id: 1, name: 'User 1' }, { id: 2, name: 'User 2' }];
+  const mockSearch = '';
 
   beforeEach(() => {
     vi.clearAllMocks();
 
     useUserStore.mockReturnValue({
       genericSearch: mockGenericSearch,
+      resetSearch: mockResetSearch,
       users: mockUsers,
     });
 
     usePaginationStore.mockReturnValue({
       setTotalPages: mockSetTotalPages,
       handleGenericSearch: mockHandleGenericSearch,
-      resetGenericSearch: mockResetGenericSearch
+      resetPagination: mockresetPagination
+    });
+
+    useSearchStore.mockReturnValue({
+      searchTerms: mockSearch,
+      setSearch: mockSetSearch,
+      clearSearch: mockClearSearch
     });
   });
 
@@ -54,10 +70,10 @@ describe('SearchBar Component', () => {
 
     fireEvent.change(searchInput, { target: { value: 'test' } });
 
-    expect(mockGenericSearch).toHaveBeenCalled();
+    expect(mockSetSearch).toHaveBeenCalled();
 
     fireEvent.change(searchInput, { target: { value: '' } });
     
-    expect(mockResetGenericSearch).toHaveBeenCalled();
+    expect(mockClearSearch).toHaveBeenCalled();
   });
 });

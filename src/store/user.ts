@@ -23,6 +23,7 @@ type UserStore = {
     removeUser: (id: string) => void;
     editUser: (id: string, first_name: string, last_name: string) => void;
     genericSearch: (search: string) => void;
+    resetSearch: () => void;
     listUsers: () => void;
     apiError: string | null | unknown;
     isLoading: boolean;
@@ -93,7 +94,11 @@ export const useUserStore = create<UserStore>((set, get) =>({
             user.first_name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) || user.last_name.toLocaleLowerCase().includes(search) || user.register_on.toLocaleLowerCase().includes(search)
         );
         set({filteredResults: filter});     
-    },  
+    },
+    resetSearch: () => {
+        const users = get().users;
+        set({filteredResults: users});
+    },
     listUsers: async () => {
         try{
             set({ isLoading: true })

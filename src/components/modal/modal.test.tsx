@@ -39,7 +39,7 @@ describe('ModalComponent', () => {
 
     expect(screen.getByText('Test Modal')).toBeInTheDocument();
 
-    expect(screen.getByText('X')).toBeInTheDocument();
+    expect(screen.getByTestId('closeBtn')).toBeInTheDocument();
 
     screen.debug();
   });

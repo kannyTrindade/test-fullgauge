@@ -23,7 +23,7 @@ const Form = () => {
     });
 
 
-    const EditUserForm = (id: string, firstName: string, lastName: string) => {
+    const EditUserForm = (id: number, firstName: string, lastName: string) => {
         editUser(id, firstName, lastName);
         toggleModal();
         clearForm();
@@ -56,7 +56,7 @@ const Form = () => {
     }, [firstName, lastName, idUser, modalType, setValue]);
 
     return (
-        <form style={{'display' : 'flex', 'flex-direction': 'column', 'gap': '1em'}} onSubmit={handleSubmit(onSubmit)}>
+        <form style={{'display' : 'flex', 'flexDirection': 'column', 'gap': '1em'}} onSubmit={handleSubmit(onSubmit)}>
             <input type="hidden" {...register('id')} />
             <input type="hidden" {...register('type')} />
 

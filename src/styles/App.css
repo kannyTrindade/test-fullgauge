@@ -32,3 +32,24 @@ th.MuiTableCell-root:last-of-type{
     text-align: right;
     padding-right: 10px;
 }
+.cancelButtonsContainer{
+    display: flex;
+    justify-content: space-between;
+}
+@media (max-width: 500px) {
+    .ReactModalPortal{
+        position: absolute;
+        z-index: 50000;
+    }
+    .ReactModal__Content{
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+    .cancelButtonsContainer{
+        flex-flow: column;
+        gap: 20px;
+    }
+}
+
