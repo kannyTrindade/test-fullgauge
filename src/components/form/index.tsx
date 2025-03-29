@@ -5,6 +5,8 @@ import { useUserStore } from '../../store/user';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSearchStore } from '../../store/search';
+import { usePaginationStore } from '../../store/pagination';
 
 const FormSchema = z.object({
     id: z.preprocess((val) => Number(val), z.number()),
@@ -18,6 +20,8 @@ type FormSchemaType = z.infer<typeof FormSchema>;
 const Form = () => {
     const { modalType, idUser, firstName, lastName, toggleModal, clearForm } = useModalStore();
     const { editUser, addUser } = useUserStore();
+    const { searchTerms } = useSearchStore();
+    const { handleGenericSearch } = usePaginationStore();
     const { register, handleSubmit, setValue, clearErrors, formState: { errors } } = useForm<FormSchemaType>({
         resolver: zodResolver(FormSchema),
     });

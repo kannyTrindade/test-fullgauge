@@ -58,7 +58,7 @@ const ModalComponent = () => {
   return (
     <Modal ariaHideApp={false} style={modalStyles} isOpen={isOpen} onRequestClose={toggleModal} shouldCloseOnOverlayClick={true}>
       <form>
-        <h3 style={{'marginTop': '0'}}>Gostaria de Deletar o usuário {firstName} {lastName}? </h3>
+        <h3 style={{'marginTop': '30px'}}>Gostaria de Deletar o usuário {firstName} {lastName}? </h3>
         <div className='cancelButtonsContainer'>
           <Button color="primary"variant="contained" onClick={toggleModal}>Cancelar</Button>
           <Button color="error" variant="contained" onClick={() => handleClickDelete(idUser)}>Sim</Button>

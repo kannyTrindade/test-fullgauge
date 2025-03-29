@@ -27,6 +27,7 @@ type UserStore = {
     listUsers: () => void;
     apiError: string | null | unknown;
     isLoading: boolean;
+    searchTerms: string;
     
 }
 
@@ -35,10 +36,12 @@ export const useUserStore = create<UserStore>((set, get) =>({
     filteredResults: [],
     apiError: null,
     isLoading: false,
+    searchTerms: '',
     addUser: async (first_name: string, last_name: string) => {
         const users = await get().users;
         const lastItem = [...users].pop();
         const registerDate = getDate();
+        const genericSearch = get().genericSearch;
         const payLoad = {
             'first_name': first_name,
             'last_name': last_name,
@@ -46,9 +49,11 @@ export const useUserStore = create<UserStore>((set, get) =>({
         }
         try{
             set({ isLoading: true })
+            const { searchTerms } = get();
             const response = await axios.post(`http://localhost:3000/users`, payLoad)
             .then(function (response) {
                 const updatedUsers = [...users, response.data];
+                
                 set((state) => ({
                     users: {
                       ...users,
@@ -59,6 +64,12 @@ export const useUserStore = create<UserStore>((set, get) =>({
                     }
                   }))
                   set({ users: updatedUsers, filteredResults: updatedUsers});
+                  if (searchTerms !== ''){
+                    const filter = updatedUsers.filter((user) =>
+                        user.first_name.toLocaleLowerCase().includes(searchTerms.toLocaleLowerCase()) || user.last_name.toLocaleLowerCase().includes(searchTerms) || user.register_on.toLocaleLowerCase().includes(searchTerms)
+                    );
+                    set({ filteredResults: filter});
+                }
             });
         }catch(error){
             set({ apiError: error })
@@ -67,13 +78,19 @@ export const useUserStore = create<UserStore>((set, get) =>({
         }
     },
     removeUser: async (id: string) => {
-        const users= get().users;
+        const { users, searchTerms }= get();
         try{
             set({ isLoading: true })
             const response = await axios.delete(`http://localhost:3000/users/${id}`)
             .then(function (response) {
                 const updatedUsers = users.filter(user => user.id !== id)
                 set({ users: updatedUsers, filteredResults: updatedUsers});
+                if (searchTerms !== ''){
+                    const filter = updatedUsers.filter((user) =>
+                        user.first_name.toLocaleLowerCase().includes(searchTerms.toLocaleLowerCase()) || user.last_name.toLocaleLowerCase().includes(searchTerms) || user.register_on.toLocaleLowerCase().includes(searchTerms)
+                    );
+                    set({ filteredResults: filter});
+                }
             });
         }catch(error){
             set({ apiError: error })
@@ -92,11 +109,11 @@ export const useUserStore = create<UserStore>((set, get) =>({
             
             user.first_name.toLocaleLowerCase().includes(search.toLocaleLowerCase()) || user.last_name.toLocaleLowerCase().includes(search) || user.register_on.toLocaleLowerCase().includes(search)
         );
-        set({filteredResults: filter});     
+        set({filteredResults: filter, searchTerms: search});     
     },
     resetSearch: () => {
         const users = get().users;
-        set({filteredResults: users});
+        set({filteredResults: users, searchTerms: ''});
     },
     listUsers: async () => {
         try{
@@ -113,7 +130,7 @@ export const useUserStore = create<UserStore>((set, get) =>({
     },
     
     editUser: async (id: string, first_name: string, last_name: string) => {
-        const users = get().users;
+        const { users, filteredResults, genericSearch, searchTerms } = get();
         const payLoad = {
             'id': id,
             'first_name': first_name,
@@ -137,6 +154,12 @@ export const useUserStore = create<UserStore>((set, get) =>({
                     }
                 });
                 set({ users: updatedUsers, filteredResults: updatedUsers});
+                if (searchTerms !== ''){
+                    const filter = updatedUsers.filter((user) =>
+                        user.first_name.toLocaleLowerCase().includes(searchTerms.toLocaleLowerCase()) || user.last_name.toLocaleLowerCase().includes(searchTerms) || user.register_on.toLocaleLowerCase().includes(searchTerms)
+                    );
+                    set({ filteredResults: filter});
+                }
             });
         }catch(error){
             set({ apiError: error })
