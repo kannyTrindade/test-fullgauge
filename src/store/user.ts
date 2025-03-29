@@ -49,7 +49,6 @@ export const useUserStore = create<UserStore>((set, get) =>({
             const response = await axios.post(`http://localhost:3000/users`, payLoad)
             .then(function (response) {
                 const updatedUsers = [...users, response.data];
-                console.log(response.data);
                 set((state) => ({
                     users: {
                       ...users,
